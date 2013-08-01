@@ -3,7 +3,9 @@ package collection
 
 import com.thisisfranklin.crdt.numeric.MaximumLattice
 
-case class MapLattice[K, V, L <: Lattice[V, L]](value: Map[K, L] = Map.empty) extends Lattice[Map[K, L], MapLattice[K, V, L]] {
+/** FIXME this causes for instantiation to require all three type paramters
+    which is quite verbose: Map[Int, Boolean, BooleanLattice] */
+case class MapLattice[K, V, L <: Lattice[V, L]](value: Map[K, L] = Map.empty[K, L]) extends Lattice[Map[K, L], MapLattice[K, V, L]] {
   def merge(other: MapLattice[K, V, L]): MapLattice[K, V, L] = {
     val myKeys = value.keySet
     val otherKeys = other.value.keySet
