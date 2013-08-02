@@ -3,7 +3,11 @@ package numeric
 
 import com.thisisfranklin.crdt.BooleanLattice
 
-case class MinimumLattice(value: Int = Int.MaxValue) extends Lattice[Int, MinimumLattice] {
+object MinimumLattice {
+  def bottom = MinimumLattice(Int.MaxValue)
+}
+
+case class MinimumLattice(value: Int) extends Lattice[Int, MinimumLattice] {
   def merge(other: MinimumLattice) = copy(value = value min other.value)
 
   @Morphism

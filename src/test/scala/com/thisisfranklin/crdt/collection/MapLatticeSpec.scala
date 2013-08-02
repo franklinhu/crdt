@@ -7,11 +7,11 @@ import org.scalatest.WordSpec
 class MapLatticeSpec extends WordSpec with MustMatchers {
   "MapLattice" should {
     "merge: base case" in {
-      val a = MapLattice[Int, BooleanLattice]()
+      val a = MapLattice.bottom[Int, BooleanLattice]
       val b = MapLattice(
-        Map(1 -> BooleanLattice(), 
+        Map(1 -> BooleanLattice(false),
             2 -> BooleanLattice(true), 
-            3 -> BooleanLattice()))
+            3 -> BooleanLattice(false)))
       
       (a merge a) must equal (a)
       (b merge b) must equal (b)

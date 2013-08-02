@@ -3,7 +3,11 @@ package collection
 
 import com.thisisfranklin.crdt.numeric.MaximumLattice
 
-case class MapLattice[K, L <: Lattice[_, L]](value: Map[K, L] = Map.empty[K, L]) extends Lattice[Map[K, L], MapLattice[K, L]] {
+object MapLattice {
+  def bottom[K, L <: Lattice[_, L]] = MapLattice[K, L](Map.empty)
+}
+
+case class MapLattice[K, L <: Lattice[_, L]](value: Map[K, L]) extends Lattice[Map[K, L], MapLattice[K, L]] {
 
   def merge(other: MapLattice[K, L]): MapLattice[K, L] = {
     val myKeys = value.keySet

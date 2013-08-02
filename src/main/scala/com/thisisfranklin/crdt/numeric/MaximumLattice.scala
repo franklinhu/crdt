@@ -1,7 +1,11 @@
 package com.thisisfranklin.crdt
 package numeric
 
-case class MaximumLattice(value: Int = Int.MinValue) extends Lattice[Int, MaximumLattice] {
+object MaximumLattice {
+  def bottom = MaximumLattice(Int.MinValue)
+}
+
+case class MaximumLattice(value: Int) extends Lattice[Int, MaximumLattice] {
   def merge(other: MaximumLattice) = copy(value = value max other.value)
 
   @Morphism

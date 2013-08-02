@@ -5,7 +5,7 @@ import org.scalatest.WordSpec
 
 class MaximumLatticeSpec extends WordSpec with MustMatchers {
   "MaximumLattice" should {
-    val bottom = MaximumLattice()
+    val bottom = MaximumLattice.bottom
     val a = MaximumLattice(0)
     val b = MaximumLattice(100)
     val c = MaximumLattice(1000)
