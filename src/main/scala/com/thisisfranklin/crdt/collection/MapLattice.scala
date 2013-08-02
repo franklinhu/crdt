@@ -3,10 +3,9 @@ package collection
 
 import com.thisisfranklin.crdt.numeric.MaximumLattice
 
-/** FIXME this causes for instantiation to require all three type paramters
-    which is quite verbose: Map[Int, Boolean, BooleanLattice] */
-case class MapLattice[K, V, L <: Lattice[V, L]](value: Map[K, L] = Map.empty[K, L]) extends Lattice[Map[K, L], MapLattice[K, V, L]] {
-  def merge(other: MapLattice[K, V, L]): MapLattice[K, V, L] = {
+case class MapLattice[K, L <: Lattice[_, L]](value: Map[K, L] = Map.empty[K, L]) extends Lattice[Map[K, L], MapLattice[K, L]] {
+
+  def merge(other: MapLattice[K, L]): MapLattice[K, L] = {
     val myKeys = value.keySet
     val otherKeys = other.value.keySet
     val newValues = (myKeys ++ otherKeys) map {
@@ -21,12 +20,12 @@ case class MapLattice[K, V, L <: Lattice[V, L]](value: Map[K, L] = Map.empty[K, 
   }
 
   @Morphism
-  def intersect(other: MapLattice[K, V, L]): MapLattice[K, V, L] = {
+  def intersect(other: MapLattice[K, L]): MapLattice[K, L] = {
     throw new Exception("UNIMPLEMENTED")
   }
 
   @Morphism
-  def map[U, W <: Lattice[U, W]](f: ((K, L)) => (K, W)): MapLattice[K, U, W] = MapLattice(value.map(f))
+  def map[U, W <: Lattice[U, W]](f: ((K, L)) => (K, W)): MapLattice[K, W] = MapLattice(value.map(f))
 
   @Morphism
   def keySet(): SetLattice[K] = SetLattice(value.keySet)
