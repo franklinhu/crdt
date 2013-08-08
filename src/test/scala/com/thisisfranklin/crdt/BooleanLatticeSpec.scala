@@ -17,5 +17,13 @@ class BooleanLatticeSpec extends WordSpec with MustMatchers {
       (f merge t) must equal (t)
       (t merge f) must equal (t)
     }
+
+    "tryCompareTo" in {
+      (f tryCompareTo f) must equal (Some(0))
+      (t tryCompareTo t) must equal (Some(0))
+
+      (f tryCompareTo t) must equal (Some(-1))
+      (t tryCompareTo f) must equal (Some(1))
+    }
   }
 }

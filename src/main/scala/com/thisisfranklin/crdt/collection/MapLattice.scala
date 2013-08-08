@@ -23,6 +23,34 @@ case class MapLattice[K, L <: Lattice[_, L]](value: Map[K, L]) extends Lattice[M
     MapLattice(newValues.toMap)
   }
 
+  def tryCompareTo(other: MapLattice[K, L]): Option[Int] = {
+    /*
+     * m1 is strictly less than m2 if:
+     *   1) for all keys `k` in m1, `k` is a key in m2 AND
+     *   2) m1[k] <= m2[k]
+     *
+     * return true if m1 is strictly less than m2, false otherwise
+     */
+    def lt(m1: Map[K, L], m2: Map[K, L]): Boolean = {
+      m1 forall { case (k, v1) =>
+        m2.get(k) match {
+          case Some(v2) => v1 <= v2
+          case _ => false
+        }
+      }
+    }
+
+    if (value equals other.value) {
+      Some(0)
+    } else if (lt(value, other.value)) {
+      Some(-1)
+    } else if (lt(other.value, value)) {
+      Some(1)
+    } else {
+      None
+    }
+  }
+
   @Morphism
   def intersect(other: MapLattice[K, L]): MapLattice[K, L] = {
     throw new Exception("UNIMPLEMENTED")

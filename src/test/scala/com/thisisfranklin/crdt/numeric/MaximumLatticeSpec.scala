@@ -22,5 +22,18 @@ class MaximumLatticeSpec extends WordSpec with MustMatchers {
       (a merge bottom) must equal (a)
       (bottom merge b merge c merge a) must equal (c)
     }
+
+    "tryCompareTo" in {
+      (bottom tryCompareTo bottom) must equal (Some(0))
+      (a tryCompareTo a) must equal (Some(0))
+      (c tryCompareTo c) must equal (Some(0))
+
+      (bottom tryCompareTo a).get must be < (0)
+      (bottom tryCompareTo c).get must be < (0)
+      (a tryCompareTo c).get must be < (0)
+
+      (c tryCompareTo a).get must be > (0)
+      (c tryCompareTo bottom).get must be > (0)
+    }
   }
 }

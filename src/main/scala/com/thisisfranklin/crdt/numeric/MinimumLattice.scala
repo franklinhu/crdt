@@ -10,6 +10,8 @@ object MinimumLattice {
 case class MinimumLattice(value: Int) extends Lattice[Int, MinimumLattice] {
   def merge(other: MinimumLattice) = copy(value = value min other.value)
 
+  def tryCompareTo(other: MinimumLattice): Option[Int] = Some(other.value - value)
+
   @Morphism
   def <(n: Int): BooleanLattice = BooleanLattice(value < n)
 
