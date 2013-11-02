@@ -60,7 +60,7 @@ case class LMap[K, L <: Lattice[_, L]](value: Map[K, L]) extends Lattice[Map[K, 
   def map[U, W <: Lattice[U, W]](f: ((K, L)) => (K, W)): LMap[K, W] = LMap(value.map(f))
 
   @Morphism
-  def keySet(): SetLattice[K] = SetLattice(value.keySet)
+  def keySet(): LSet[K] = LSet(value.keySet)
 
   //@Morphism
   //def at(u: V): K
