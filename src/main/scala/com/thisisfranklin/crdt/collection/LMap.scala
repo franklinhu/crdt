@@ -3,13 +3,13 @@ package collection
 
 import com.thisisfranklin.crdt.numeric.MaximumLattice
 
-object MapLattice {
-  def bottom[K, L <: Lattice[_, L]] = MapLattice[K, L](Map.empty)
+object LMap {
+  def bottom[K, L <: Lattice[_, L]] = LMap[K, L](Map.empty)
 }
 
-case class MapLattice[K, L <: Lattice[_, L]](value: Map[K, L]) extends Lattice[Map[K, L], MapLattice[K, L]] {
+case class LMap[K, L <: Lattice[_, L]](value: Map[K, L]) extends Lattice[Map[K, L], LMap[K, L]] {
 
-  def merge(other: MapLattice[K, L]): MapLattice[K, L] = {
+  def merge(other: LMap[K, L]): LMap[K, L] = {
     val myKeys = value.keySet
     val otherKeys = other.value.keySet
     val newValues = (myKeys ++ otherKeys) map {
@@ -20,10 +20,10 @@ case class MapLattice[K, L <: Lattice[_, L]](value: Map[K, L]) extends Lattice[M
       case k if otherKeys.contains(k) =>
         k -> other.value(k)
     }
-    MapLattice(newValues.toMap)
+    LMap(newValues.toMap)
   }
 
-  def tryCompareTo(other: MapLattice[K, L]): Option[Int] = {
+  def tryCompareTo(other: LMap[K, L]): Option[Int] = {
     /*
      * m1 is strictly less than m2 if:
      *   1) for all keys `k` in m1, `k` is a key in m2 AND
@@ -52,12 +52,12 @@ case class MapLattice[K, L <: Lattice[_, L]](value: Map[K, L]) extends Lattice[M
   }
 
   @Morphism
-  def intersect(other: MapLattice[K, L]): MapLattice[K, L] = {
+  def intersect(other: LMap[K, L]): LMap[K, L] = {
     throw new Exception("UNIMPLEMENTED")
   }
 
   @Morphism
-  def map[U, W <: Lattice[U, W]](f: ((K, L)) => (K, W)): MapLattice[K, W] = MapLattice(value.map(f))
+  def map[U, W <: Lattice[U, W]](f: ((K, L)) => (K, W)): LMap[K, W] = LMap(value.map(f))
 
   @Morphism
   def keySet(): SetLattice[K] = SetLattice(value.keySet)

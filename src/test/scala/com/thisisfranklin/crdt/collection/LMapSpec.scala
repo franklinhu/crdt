@@ -4,11 +4,11 @@ package collection
 import org.scalatest.matchers.MustMatchers
 import org.scalatest.WordSpec
 
-class MapLatticeSpec extends WordSpec with MustMatchers {
-  "MapLattice" should {
+class LMapSpec extends WordSpec with MustMatchers {
+  "LMap" should {
     "merge: base case" in {
-      val a = MapLattice.bottom[Int, BooleanLattice]
-      val b = MapLattice(
+      val a = LMap.bottom[Int, BooleanLattice]
+      val b = LMap(
         Map(1 -> BooleanLattice(false),
             2 -> BooleanLattice(true), 
             3 -> BooleanLattice(false)))
@@ -20,16 +20,16 @@ class MapLatticeSpec extends WordSpec with MustMatchers {
     }
 
     "merge value lattices" in {
-      val a = MapLattice(Map(1 -> BooleanLattice(false),
+      val a = LMap(Map(1 -> BooleanLattice(false),
                              2 -> BooleanLattice(true),
                              3 -> BooleanLattice(false)))
 
-      val b = MapLattice(Map(1 -> BooleanLattice(true),
+      val b = LMap(Map(1 -> BooleanLattice(true),
                              2 -> BooleanLattice(false),
                              3 -> BooleanLattice(false),
                              4 -> BooleanLattice(false)))
 
-      val expected = MapLattice(Map(1 -> BooleanLattice(true),
+      val expected = LMap(Map(1 -> BooleanLattice(true),
                                     2 -> BooleanLattice(true),
                                     3 -> BooleanLattice(false),
                                     4 -> BooleanLattice(false)))
@@ -39,20 +39,20 @@ class MapLatticeSpec extends WordSpec with MustMatchers {
     }
 
     "tryCompareTo" in {
-      val a = MapLattice.bottom[Int, BooleanLattice]
+      val a = LMap.bottom[Int, BooleanLattice]
 
-      val b = MapLattice(Map(1 -> BooleanLattice(false),
+      val b = LMap(Map(1 -> BooleanLattice(false),
                              2 -> BooleanLattice(true)))
 
-      val c = MapLattice(Map(1 -> BooleanLattice(false),
+      val c = LMap(Map(1 -> BooleanLattice(false),
                              2 -> BooleanLattice(true),
                              3 -> BooleanLattice(true)))
 
-      val d = MapLattice(Map(1 -> BooleanLattice(false),
+      val d = LMap(Map(1 -> BooleanLattice(false),
                              2 -> BooleanLattice(true),
                              3 -> BooleanLattice(false)))
 
-      val e = MapLattice(Map(1 -> BooleanLattice(true),
+      val e = LMap(Map(1 -> BooleanLattice(true),
                              2 -> BooleanLattice(false),
                              3 -> BooleanLattice(true)))
 
